@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -f lab23 ]
+	then
+	rm lab23
+fi
+make lib
+gcc main.c -L. lib/libbintree.a -o lab23
+./lab23
