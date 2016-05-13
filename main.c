@@ -63,10 +63,10 @@ int main(void)
 				break;
 			case 'c':
 				if (tree == NULL) {
-					printf("Tree is empty");
+					printf("0\n");
 					break;
 				}
-				bintree_get_binleaves_count(tree);
+				printf("%d\n", bintree_get_binleaves_count(tree));
 				break;
 			case 'p':
 				bintree_print(tree, 0);
