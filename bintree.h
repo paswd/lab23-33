@@ -11,7 +11,7 @@ typedef struct _bintree Bintree;
 Bintree* bintree_create(Item value);
 void bintree_destroy(Bintree **root);
 void bintree_push(Bintree *root, Item value);
-bool bintree_pop(Bintree *root, Item value);
+bool bintree_pop(Bintree **root, Item value);
 void bintree_print(Bintree *root, int lvl);
 Bintree *bintree_min(Bintree *root);
 Bintree *bintree_max(Bintree *root);

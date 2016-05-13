@@ -59,7 +59,7 @@ int main(void)
 					break;
 				}
 				scanf("%lld", &value);
-				bintree_pop(tree, value);
+				bintree_pop(&tree, value);
 				break;
 			case 'c':
 				if (tree == NULL) {

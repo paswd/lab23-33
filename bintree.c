@@ -52,50 +52,50 @@ void bintree_push(Bintree *root, Item value)
 		root->right = bintree_create(value);
 	}
 }
-bool bintree_pop(Bintree *root, Item value)
+bool bintree_pop(Bintree **root, Item value)
 {
-	if (value < root->value) {
-		if (root->left != NULL)
-			if (bintree_pop(root->left, value))
-				root->left = NULL;
+	if (value < (*root)->value) {
+		if ((*root)->left != NULL)
+			if (bintree_pop(&((*root)->left), value))
+				(*root)->left = NULL;
 		return false;
 	}
-	if (value > root->value) {
-		if (root->right != NULL)
-			if (bintree_pop(root->right, value))
-				root->right = NULL;
+	if (value > (*root)->value) {
+		if ((*root)->right != NULL)
+			if (bintree_pop(&((*root)->right), value))
+				(*root)->right = NULL;
 		return false;
 	}
 
-	if (root->left == NULL && root->right == NULL) {
-		bintree_destroy(&root);
+	if ((*root)->left == NULL && (*root)->right == NULL) {
+		bintree_destroy(root);
 		return true;
 	}
-	if (root->left == NULL) {
-		Bintree *tmp = root->right;
-		root->value = tmp->value;
-		root->left = tmp->left;
-		root->right = tmp->right;
+	if ((*root)->left == NULL) {
+		Bintree *tmp = (*root)->right;
+		(*root)->value = tmp->value;
+		(*root)->left = tmp->left;
+		(*root)->right = tmp->right;
 		tmp->left = NULL;
 		tmp->right = NULL;
 		bintree_destroy(&tmp);
 		return false;
 	}
-	if (root->right == NULL) {
-		Bintree *tmp = root->left;
-		root->value = tmp->value;
-		root->left = tmp->left;
-		root->right = tmp->right;
+	if ((*root)->right == NULL) {
+		Bintree *tmp = (*root)->left;
+		(*root)->value = tmp->value;
+		(*root)->left = tmp->left;
+		(*root)->right = tmp->right;
 		tmp->left = NULL;
 		tmp->right = NULL;
 		bintree_destroy(&tmp);
 		return false;
 	}
-	Bintree *min = bintree_min(root->right);
-	root->value = min->value;
-	Bintree *tmp = root->right;
+	Bintree *min = bintree_min((*root)->right);
+	(*root)->value = min->value;
+	Bintree *tmp = (*root)->right;
 	if (tmp == min) {
-		root->right = NULL;
+		(*root)->right = NULL;
 		bintree_destroy(&tmp);
 		return false;
 	}
