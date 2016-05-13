@@ -25,13 +25,13 @@ Bintree* bintree_create(Item value)
 }
 void bintree_destroy(Bintree **root)
 {
-	if (root->left != NULL) 
+	if ((*root)->left != NULL) 
 		bintree_destroy(&((*root)->left));
-	root->left = NULL;
+	(*root)->left = NULL;
 
-	if (root->right != NULL) 
+	if ((*root)->right != NULL) 
 		bintree_destroy(&((*root)->right));
-	root->right = NULL;
+	(*root)->right = NULL;
 
 	free(*root);
 	*root = NULL;
@@ -72,31 +72,45 @@ bool bintree_pop(Bintree *root, Item value)
 		return true;
 	}
 	if (root->left == NULL) {
-		Bintree **tmp = &root;
-		root = root->right;
-		free(*tmp);
-		*tmp = NULL;
+		Bintree *tmp = root->right;
+		root->value = tmp->value;
+		root->left = tmp->left;
+		root->right = tmp->right;
+		tmp->left = NULL;
+		tmp->right = NULL;
+		bintree_destroy(&tmp);
 		return false;
 	}
 	if (root->right == NULL) {
-		Bintree **tmp = &root;
-		root = root->left;
-		free(*tmp);
-		*tmp = NULL;
+		Bintree *tmp = root->left;
+		root->value = tmp->value;
+		root->left = tmp->left;
+		root->right = tmp->right;
+		tmp->left = NULL;
+		tmp->right = NULL;
+		bintree_destroy(&tmp);
 		return false;
 	}
-
 	Bintree *min = bintree_min(root->right);
 	root->value = min->value;
 	Bintree *tmp = root->right;
+	if (tmp == min) {
+		root->right = NULL;
+		bintree_destroy(&tmp);
+		return false;
+	}
 	while (tmp->left != min)
 		tmp = tmp->left;
 	tmp->left = NULL;
-	bintree_destroy(&min);
+	bintree_destroy(&tmp);
 	return false;
 }
-Item bintree_print(Bintree *root, int lvl)
+void bintree_print(Bintree *root, int lvl)
 {
+	if (root == NULL) {
+		printf("Tree is empty\n");
+		return;
+	}
 	for (int i = 0; i < lvl; i++)
 		printf("  ");
 	printf("%lld\n", root->value);

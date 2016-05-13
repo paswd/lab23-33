@@ -69,7 +69,7 @@ int main(void)
 				bintree_get_binleaves_count(tree);
 				break;
 			case 'p':
-				bintree_print(tree);
+				bintree_print(tree, 0);
 				break;
 			case '\n':
 				break;
