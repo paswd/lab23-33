@@ -101,8 +101,9 @@ bool bintree_pop(Bintree **root, Item value)
 	}
 	while (tmp->left != min)
 		tmp = tmp->left;
-	tmp->left = NULL;
-	bintree_destroy(&tmp);
+	//Bintree *rm = tmp->left;
+	//tmp->left = NULL;
+	bintree_destroy(&(tmp->left));
 	return false;
 }
 void bintree_print(Bintree *root, int lvl)
